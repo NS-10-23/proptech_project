@@ -1,0 +1,622 @@
+{% extends "valuation/base.html" %}
+
+{% block title %}AI Valuation | PropTech AI{% endblock %}
+
+{% block extra_head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+
+{% block content %}
+
+<section class="valuation-section">
+
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="page-header valuation-page-header">
+
+            <div>
+
+                <span class="page-eyebrow">
+                    MACHINE LEARNING ENGINE
+                </span>
+
+                <h1>
+                    Property Valuation
+                </h1>
+
+                <p>
+                    Enter the property characteristics to generate
+                    an AI-assisted market estimate.
+                </p>
+
+            </div>
+
+            <div class="model-status">
+
+                <i class="fa-solid fa-circle-check"></i>
+
+                <span>
+                    Model Active
+                </span>
+
+                <small>
+                    R² 97.4%
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="row g-4">
+
+            <!-- ==========================================
+                 PROPERTY INPUT FORM
+                 ========================================== -->
+
+            <div class="col-lg-5">
+
+                <div class="valuation-form-card">
+
+                    <div class="panel-heading">
+
+                        <div>
+
+                            <span class="panel-eyebrow">
+                                PROPERTY INFORMATION
+                            </span>
+
+                            <h2>
+                                Property details
+                            </h2>
+
+                            <p>
+                                Provide the seven model inputs.
+                            </p>
+
+                        </div>
+
+                        <div class="panel-icon">
+                            <i class="fa-solid fa-house"></i>
+                        </div>
+
+                    </div>
+
+
+                    <form method="post">
+
+                        {% csrf_token %}
+
+
+                        <!-- Location -->
+                        <div class="form-group">
+
+                            <label for="location">
+                                Location
+                            </label>
+
+                            <select
+                                id="location"
+                                name="location"
+                                class="form-control"
+                            >
+
+                                <option>
+                                    Baluwatar, Kathmandu
+                                </option>
+
+                                <option selected>
+                                    New Baneshwor, Kathmandu
+                                </option>
+
+                                <option>
+                                    Jhamsikhel, Lalitpur
+                                </option>
+
+                                <option>
+                                    Sanepa, Lalitpur
+                                </option>
+
+                                <option>
+                                    Maharajgunj, Kathmandu
+                                </option>
+
+                                <option>
+                                    Budhanilkantha, Kathmandu
+                                </option>
+
+                                <option>
+                                    Koteshwor, Kathmandu
+                                </option>
+
+                                <option>
+                                    Imadol, Lalitpur
+                                </option>
+
+                                <option>
+                                    Suryabinayak, Bhaktapur
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="row g-3">
+
+                            <!-- Land -->
+                            <div class="col-6">
+
+                                <div class="form-group">
+
+                                    <label for="land_aana">
+                                        Land area
+                                    </label>
+
+                                    <div class="input-group">
+
+                                        <input
+                                            id="land_aana"
+                                            type="number"
+                                            step="any"
+                                            min="0.1"
+                                            name="land_aana"
+                                            class="form-control"
+                                            value="4.0"
+                                            required
+                                        >
+
+                                        <span class="input-group-text">
+                                            Aana
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Floors -->
+                            <div class="col-6">
+
+                                <div class="form-group">
+
+                                    <label for="floors">
+                                        Floors
+                                    </label>
+
+                                    <div class="input-group">
+
+                                        <input
+                                            id="floors"
+                                            type="number"
+                                            step="any"
+                                            min="1"
+                                            name="floors"
+                                            class="form-control"
+                                            value="2.5"
+                                            required
+                                        >
+
+                                        <span class="input-group-text">
+                                            Tala
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Road width -->
+                            <div class="col-6">
+
+                                <div class="form-group">
+
+                                    <label for="road_feet">
+                                        Road width
+                                    </label>
+
+                                    <div class="input-group">
+
+                                        <input
+                                            id="road_feet"
+                                            type="number"
+                                            step="any"
+                                            min="1"
+                                            name="road_feet"
+                                            class="form-control"
+                                            value="13"
+                                            required
+                                        >
+
+                                        <span class="input-group-text">
+                                            Feet
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Road type -->
+                            <div class="col-6">
+
+                                <div class="form-group">
+
+                                    <label for="road_type">
+                                        Road surface
+                                    </label>
+
+                                    <select
+                                        id="road_type"
+                                        name="road_type"
+                                        class="form-control"
+                                    >
+
+                                        <option
+                                            selected
+                                            value="Pitch"
+                                        >
+                                            Paved (Pitch)
+                                        </option>
+
+                                        <option value="Concrete">
+                                            Concrete
+                                        </option>
+
+                                        <option value="Gravel">
+                                            Gravel
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Rooms -->
+                            <div class="col-6">
+
+                                <div class="form-group">
+
+                                    <label for="rooms">
+                                        Bedrooms
+                                    </label>
+
+                                    <input
+                                        id="rooms"
+                                        type="number"
+                                        min="1"
+                                        name="rooms"
+                                        class="form-control"
+                                        value="6"
+                                        required
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Bathrooms -->
+                            <div class="col-6">
+
+                                <div class="form-group">
+
+                                    <label for="bathrooms">
+                                        Bathrooms
+                                    </label>
+
+                                    <input
+                                        id="bathrooms"
+                                        type="number"
+                                        min="1"
+                                        name="bathrooms"
+                                        class="form-control"
+                                        value="3"
+                                        required
+                                    >
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Submit -->
+                        <button
+                            class="valuation-submit"
+                            type="submit"
+                        >
+
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+
+                            Calculate market valuation
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+
+            <!-- ==========================================
+                 RESULTS
+                 ========================================== -->
+
+            <div class="col-lg-7">
+
+                {% if result %}
+
+                    <!-- Main valuation -->
+                    <div class="result-card">
+
+                        <div class="result-top">
+
+                            <div>
+
+                                <span class="result-label">
+                                    AI ESTIMATED VALUATION
+                                </span>
+
+                                <div class="result-price">
+                                    {{ result.price_formatted }}
+                                </div>
+
+                                <div class="result-location">
+                                    <i class="fa-solid fa-location-dot"></i>
+
+                                    {{ result.inputs.location }}
+
+                                </div>
+
+                            </div>
+
+                            <div class="result-check">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+
+                        </div>
+
+
+                        <!-- Estimated range -->
+                        <div class="valuation-range">
+
+                            <div class="range-values">
+
+                                <span>
+                                    {{ result.price_low }}
+                                </span>
+
+                                <strong>
+                                    ±5% estimated range
+                                </strong>
+
+                                <span>
+                                    {{ result.price_high }}
+                                </span>
+
+                            </div>
+
+                            <div class="range-track">
+
+                                <div class="range-fill"></div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Metrics -->
+                    <div class="row g-3 mt-1">
+
+                        <div class="col-md-6">
+
+                            <div class="metric-card">
+
+                                <div class="metric-icon">
+                                    <i class="fa-solid fa-coins"></i>
+                                </div>
+
+                                <div>
+
+                                    <span>
+                                        Monthly rent
+                                    </span>
+
+                                    <strong>
+                                        {{ result.monthly_rent }}
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <div class="metric-card">
+
+                                <div class="metric-icon">
+                                    <i class="fa-solid fa-arrow-trend-up"></i>
+                                </div>
+
+                                <div>
+
+                                    <span>
+                                        Projected cap rate
+                                    </span>
+
+                                    <strong>
+                                        {{ result.cap_rate }}
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Forecast -->
+                    <div class="chart-card">
+
+                        <div class="panel-heading">
+
+                            <div>
+
+                                <span class="panel-eyebrow">
+                                    MARKET PROJECTION
+                                </span>
+
+                                <h2>
+                                    5-year appreciation trajectory
+                                </h2>
+
+                                <p>
+                                    Illustrative 7.5% annual growth benchmark.
+                                </p>
+
+                            </div>
+
+                            <div class="panel-icon">
+                                <i class="fa-solid fa-chart-line"></i>
+                            </div>
+
+                        </div>
+
+
+                        <div class="chart-container">
+
+                            <canvas id="forecastChart"></canvas>
+
+                        </div>
+
+                    </div>
+
+
+                {% else %}
+
+                    <!-- Empty state -->
+                    <div class="valuation-empty">
+
+                        <div class="empty-icon">
+
+                            <i class="fa-solid fa-chart-line"></i>
+
+                        </div>
+
+                        <h2>
+                            Ready to estimate
+                        </h2>
+
+                        <p>
+                            Complete the property details and the AI
+                            valuation results will appear here.
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+{% if result %}
+
+<script>
+
+    new Chart(
+        document.getElementById("forecastChart"),
+        {
+            type: "line",
+
+            data: {
+                labels: {{ result.forecast_labels|safe }},
+
+                datasets: [
+                    {
+                        data: {{ result.forecast_values|safe }},
+
+                        borderColor: "#2563eb",
+
+                        backgroundColor: "rgba(37, 99, 235, 0.10)",
+
+                        fill: true,
+
+                        tension: 0.35,
+
+                        pointRadius: 4
+                    }
+                ]
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+
+                scales: {
+
+                    y: {
+
+                        ticks: {
+
+                            callback: function(value) {
+
+                                return "Rs. "
+                                    + (value / 10000000).toFixed(1)
+                                    + " Cr";
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+    );
+
+</script>
+
+{% endif %}
+
+{% endblock %}

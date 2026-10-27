@@ -1,0 +1,328 @@
+{% extends "valuation/base.html" %}
+
+{% block title %}Recently Deleted | PropTech AI{% endblock %}
+
+{% block content %}
+
+<section class="page-section history-page">
+
+    <!-- PAGE HEADER -->
+    <div class="history-header">
+
+        <div class="history-header-content">
+
+            <span class="section-eyebrow">
+                <i class="fa-solid fa-trash-can"></i>
+                VALUATION MANAGEMENT
+            </span>
+
+            <h1>Recently Deleted</h1>
+
+            <p>
+                Valuations moved here can be restored or permanently deleted.
+            </p>
+
+        </div>
+
+
+        <div class="history-header-actions">
+
+            <a href="{% url 'history' %}" class="btn btn-outline-primary">
+                <i class="fa-solid fa-arrow-left"></i>
+                Back to History
+            </a>
+
+            <a href="{% url 'valuation' %}" class="btn btn-primary">
+                <i class="fa-solid fa-plus"></i>
+                New Valuation
+            </a>
+
+        </div>
+
+    </div>
+
+
+    {% if valuations %}
+
+    <!-- DELETED VALUATIONS CARD -->
+    <div class="history-card deleted-history-card">
+
+        <!-- CARD HEADER -->
+        <div class="history-card-header">
+
+            <div class="history-card-title">
+
+                <div class="history-card-icon deleted-icon">
+                    <i class="fa-solid fa-trash-can"></i>
+                </div>
+
+                <div>
+                    <h2>Deleted Valuations</h2>
+
+                    <p>
+                        {{ valuations|length }}
+                        valuation{{ valuations|length|pluralize }}
+                        currently in Recently Deleted.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- TABLE -->
+        <div class="history-table-wrapper">
+
+            <table class="history-table deleted-history-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th class="location-column">
+                            Location
+                        </th>
+
+                        <th class="land-column">
+                            Land
+                        </th>
+
+                        <th class="small-column">
+                            Rooms
+                        </th>
+
+                        <th class="small-column">
+                            Bathrooms
+                        </th>
+
+                        <th class="value-column">
+                            Estimated Value
+                        </th>
+
+                        <th class="date-column">
+                            Deleted On
+                        </th>
+
+                        <th class="actions-column">
+                            Actions
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for item in valuations %}
+
+                    <tr>
+
+                        <!-- LOCATION -->
+                        <td>
+
+                            <div class="history-location">
+
+                                <div class="history-location-icon">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                </div>
+
+                                <div class="history-location-details">
+
+                                    <strong>
+                                        {{ item.location }}
+                                    </strong>
+
+                                    <span>
+                                        {{ item.road_type }}
+                                        <span class="location-separator">•</span>
+                                        {{ item.road_feet }} ft road
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <!-- LAND -->
+                        <td>
+
+                            <div class="table-main-value">
+                                {{ item.land_aana }}
+                            </div>
+
+                            <div class="table-secondary-value">
+                                Aana
+                            </div>
+
+                        </td>
+
+
+                        <!-- ROOMS -->
+                        <td class="center-column">
+
+                            <span class="table-number">
+                                {{ item.rooms }}
+                            </span>
+
+                        </td>
+
+
+                        <!-- BATHROOMS -->
+                        <td class="center-column">
+
+                            <span class="table-number">
+                                {{ item.bathrooms }}
+                            </span>
+
+                        </td>
+
+
+                        <!-- ESTIMATED VALUE -->
+                        <td>
+
+                            <span class="history-price">
+                                {{ item.price_formatted }}
+                            </span>
+
+                        </td>
+
+
+                        <!-- DELETED DATE -->
+                        <td>
+
+                            <div class="deleted-date">
+
+                                <strong>
+                                    {{ item.deleted_at|date:"M d, Y" }}
+                                </strong>
+
+                                <span>
+                                    {{ item.deleted_at|date:"h:i A" }}
+                                </span>
+
+                            </div>
+
+                        </td>
+
+
+                        <!-- ACTIONS -->
+                        <td>
+
+                            <div class="history-actions">
+
+                                <!-- RESTORE -->
+                                <form
+                                    method="post"
+                                    action="{% url 'restore_valuation' item.id %}"
+                                >
+
+                                    {% csrf_token %}
+
+                                    <button
+                                        type="submit"
+                                        class="history-restore-button"
+                                        title="Restore this valuation"
+                                    >
+
+                                        <i class="fa-solid fa-rotate-left"></i>
+
+                                        <span>Restore</span>
+
+                                    </button>
+
+                                </form>
+
+
+                                <!-- PERMANENT DELETE -->
+                                <form
+                                    method="post"
+                                    action="{% url 'permanently_delete_valuation' item.id %}"
+                                    onsubmit="return confirmPermanentDelete();"
+                                >
+
+                                    {% csrf_token %}
+
+                                    <button
+                                        type="submit"
+                                        class="history-permanent-delete-button"
+                                        title="Permanently delete this valuation"
+                                    >
+
+                                        <i class="fa-solid fa-trash"></i>
+
+                                        <span>Delete Forever</span>
+
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    {% else %}
+
+    <!-- EMPTY STATE -->
+    <div class="history-empty-state">
+
+        <div class="history-empty-icon">
+
+            <i class="fa-solid fa-trash-can"></i>
+
+        </div>
+
+
+        <h2>Recently Deleted is Empty</h2>
+
+        <p>
+            Deleted valuations will appear here. You can restore them
+            or permanently remove them from your account.
+        </p>
+
+
+        <a href="{% url 'history' %}" class="btn btn-primary">
+
+            <i class="fa-solid fa-clock-rotate-left"></i>
+
+            View Valuation History
+
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+
+<script>
+
+function confirmPermanentDelete() {
+
+    return confirm(
+        "Permanently delete this valuation?\n\n" +
+        "This action cannot be undone."
+    );
+
+}
+
+</script>
+
+{% endblock %}

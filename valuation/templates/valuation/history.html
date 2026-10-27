@@ -1,0 +1,415 @@
+{% extends "valuation/base.html" %}
+
+{% block title %}Valuation History | PropTech AI{% endblock %}
+
+{% block content %}
+
+<section class="history-section">
+
+    <div class="container">
+
+        <!-- =========================
+             PAGE HEADER
+        ========================== -->
+
+        <div class="page-header history-page-header">
+
+            <div class="history-page-title">
+
+                <span class="page-eyebrow">
+                    YOUR RECORDS
+                </span>
+
+                <h1>
+                    Valuation History
+                </h1>
+
+                <p>
+                    Review every property assessment saved to your account.
+                </p>
+
+            </div>
+
+
+            <div class="history-header-actions">
+
+                <a
+                    href="{% url 'valuation' %}"
+                    class="dashboard-action history-new-button"
+                >
+                    <i class="fa-solid fa-plus"></i>
+                    <span>New valuation</span>
+                </a>
+
+
+                <a
+                    href="{% url 'deleted_history' %}"
+                    class="history-deleted-button"
+                >
+                    <i class="fa-solid fa-trash-can"></i>
+                    <span>Recently Deleted</span>
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             HISTORY CARD
+        ========================== -->
+
+        <div class="history-card">
+
+
+            <!-- Card Header -->
+
+            <div class="history-card-header">
+
+                <div class="history-card-heading">
+
+                    <span class="panel-eyebrow">
+                        PROPERTY ASSESSMENTS
+                    </span>
+
+                    <h2>
+                        Saved valuations
+                    </h2>
+
+                    <p>
+                        Your previously generated property estimates.
+                    </p>
+
+                </div>
+
+
+                <div class="history-icon">
+
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+
+                </div>
+
+            </div>
+
+
+            {% if valuations %}
+
+
+                <!-- =========================
+                     TABLE
+                ========================== -->
+
+                <div class="history-table-wrapper">
+
+                    <table class="valuation-history-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th class="history-date-column">
+                                    Date
+                                </th>
+
+                                <th class="history-property-column">
+                                    Property
+                                </th>
+
+                                <th class="history-details-column">
+                                    Land &amp; Floors
+                                </th>
+
+                                <th class="history-road-column">
+                                    Road
+                                </th>
+
+                                <th class="history-value-column">
+                                    Estimated Value
+                                </th>
+
+                                <th class="history-rent-column">
+                                    Monthly Rent
+                                </th>
+
+                                <th class="history-action-column">
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for item in valuations %}
+
+                            <tr>
+
+
+                                <!-- DATE -->
+
+                                <td class="history-date-column">
+
+                                    <div class="history-date">
+
+                                        <strong>
+                                            {{ item.created_at|date:"M d, Y" }}
+                                        </strong>
+
+                                        <span>
+                                            {{ item.created_at|date:"H:i" }}
+                                        </span>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- PROPERTY -->
+
+                                <td class="history-property-column">
+
+                                    <div class="history-property">
+
+                                        <div class="history-location-icon">
+
+                                            <i class="fa-solid fa-location-dot"></i>
+
+                                        </div>
+
+
+                                        <div class="history-property-info">
+
+                                            <strong>
+                                                {{ item.location }}
+                                            </strong>
+
+                                            <span>
+                                                Nepal
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- LAND + FLOORS -->
+
+                                <td class="history-details-column">
+
+                                    <div class="history-details">
+
+                                        <div class="history-detail-item">
+
+                                            <i class="fa-solid fa-ruler-combined"></i>
+
+                                            <div>
+
+                                                <span>
+                                                    Land
+                                                </span>
+
+                                                <strong>
+                                                    {{ item.land_aana }} Aana
+                                                </strong>
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="history-detail-item">
+
+                                            <i class="fa-solid fa-building"></i>
+
+                                            <div>
+
+                                                <span>
+                                                    Floors
+                                                </span>
+
+                                                <strong>
+                                                    {{ item.floors }}
+                                                </strong>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- ROAD -->
+
+                                <td class="history-road-column">
+
+                                    <div class="history-road">
+
+                                        <strong>
+                                            {{ item.road_feet }} ft
+                                        </strong>
+
+                                        <span>
+                                            {{ item.road_type }}
+                                        </span>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- VALUE -->
+
+                                <td class="history-value-column">
+
+                                    <div class="history-value">
+
+                                        <span>
+                                            Estimated value
+                                        </span>
+
+                                        <strong>
+                                            {{ item.price_formatted }}
+                                        </strong>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- RENT -->
+
+                                <td class="history-rent-column">
+
+                                    <div class="history-rent">
+
+                                        <span>
+                                            Monthly rent
+                                        </span>
+
+                                        <strong>
+                                            Rs. {{ item.monthly_rent_npr|floatformat:0 }}
+                                        </strong>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- ACTION -->
+
+                                <td class="history-action-column">
+
+                                    <form
+                                        method="post"
+                                        action="{% url 'delete_valuation' item.id %}"
+                                        class="delete-form"
+                                        onsubmit="return confirmDelete();"
+                                    >
+
+                                        {% csrf_token %}
+
+                                        <button
+                                            type="submit"
+                                            class="history-delete-button"
+                                            title="Move to Recently Deleted"
+                                        >
+
+                                            <i class="fa-solid fa-trash-can"></i>
+
+                                            <span>
+                                                Delete
+                                            </span>
+
+                                        </button>
+
+                                    </form>
+
+                                </td>
+
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+            {% else %}
+
+
+                <!-- =========================
+                     EMPTY STATE
+                ========================== -->
+
+                <div class="history-empty">
+
+                    <div class="empty-state-icon">
+
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+
+                    </div>
+
+
+                    <h3>
+                        No saved valuations
+                    </h3>
+
+
+                    <p>
+                        Your completed valuations will appear here.
+                    </p>
+
+
+                    <a
+                        href="{% url 'valuation' %}"
+                        class="dashboard-action"
+                    >
+
+                        <i class="fa-solid fa-calculator"></i>
+
+                        <span>
+                            Create your first valuation
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+            {% endif %}
+
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+<script>
+
+function confirmDelete() {
+
+    return confirm(
+        "Move this valuation to Recently Deleted?"
+    );
+
+}
+
+</script>
+
+{% endblock %}

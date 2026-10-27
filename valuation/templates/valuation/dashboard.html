@@ -1,0 +1,321 @@
+{% extends "valuation/base.html" %}
+
+{% block title %}Dashboard | PropTech AI{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-section">
+
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="dashboard-header">
+
+            <div>
+                <span class="page-eyebrow">
+                    PERSONAL DASHBOARD
+                </span>
+
+                <h1>
+                    Welcome back, {{ user.username }}
+                </h1>
+
+                <p>
+                    Manage your property valuations and access
+                    your real estate insights.
+                </p>
+            </div>
+
+            <a
+                href="{% url 'valuation' %}"
+                class="dashboard-action"
+            >
+                <i class="fa-solid fa-plus"></i>
+                New Valuation
+            </a>
+
+        </div>
+
+
+        <!-- Statistics -->
+        <div class="dashboard-stats">
+
+            <div class="dashboard-stat-card">
+
+                <div class="dashboard-stat-icon">
+                    <i class="fa-solid fa-calculator"></i>
+                </div>
+
+                <div class="dashboard-stat-content">
+
+                    <span>
+                        Total Valuations
+                    </span>
+
+                    <strong>
+                        {{ total }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-stat-card">
+
+                <div class="dashboard-stat-icon">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                </div>
+
+                <div class="dashboard-stat-content">
+
+                    <span>
+                        Recent Activity
+                    </span>
+
+                    <strong>
+                        {{ valuations.count }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-stat-card">
+
+                <div class="dashboard-stat-icon">
+                    <i class="fa-solid fa-chart-line"></i>
+                </div>
+
+                <div class="dashboard-stat-content">
+
+                    <span>
+                        Analysis Type
+                    </span>
+
+                    <strong>
+                        AI
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Recent Valuations -->
+        <div class="dashboard-panel">
+
+            <div class="dashboard-panel-header">
+
+                <div>
+                    <h2>
+                        Recent Valuations
+                    </h2>
+
+                    <p>
+                        Your latest property valuation records
+                    </p>
+                </div>
+
+                <a
+                    href="{% url 'history' %}"
+                    class="panel-link"
+                >
+                    View All
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+            </div>
+
+
+            {% if valuations %}
+
+                <div class="table-responsive">
+
+                    <table class="valuation-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>Location</th>
+                                <th>Land</th>
+                                <th>Rooms</th>
+                                <th>Road Width</th>
+                                <th>Estimated Value</th>
+                                <th>Date</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for valuation in valuations %}
+
+                                <tr>
+
+                                    <td>
+                                        <strong>
+                                            {{ valuation.location }}
+                                        </strong>
+                                    </td>
+
+                                    <td>
+                                        {{ valuation.land_aana }} Aana
+                                    </td>
+
+                                    <td>
+                                        {{ valuation.rooms }}
+                                    </td>
+
+                                    <td>
+                                        {{ valuation.road_feet }} ft
+                                    </td>
+
+                                    <td>
+                                        <strong class="price-value">
+                                            {{ valuation.price_formatted }}
+                                        </strong>
+                                    </td>
+
+                                    <td>
+                                        {{ valuation.created_at|date:"M d, Y" }}
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <div class="empty-state">
+
+                    <div class="empty-state-icon">
+                        <i class="fa-solid fa-house-circle-exclamation"></i>
+                    </div>
+
+                    <h3>
+                        No valuations yet
+                    </h3>
+
+                    <p>
+                        You haven't created a property valuation.
+                        Start your first analysis to see it here.
+                    </p>
+
+                    <a
+                        href="{% url 'valuation' %}"
+                        class="dashboard-action"
+                    >
+                        <i class="fa-solid fa-calculator"></i>
+                        Start Valuation
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+
+            <!-- AI Property Valuation -->
+            <a
+                href="{% url 'valuation' %}"
+                class="quick-action-card"
+                aria-label="AI Property Valuation"
+            >
+
+                <div class="quick-action-icon">
+                    <i class="fa-solid fa-calculator"></i>
+                </div>
+
+                <div>
+                    <h3>
+                        AI Property Valuation
+                    </h3>
+
+                    <p>
+                        Generate a new property value estimate.
+                    </p>
+                </div>
+
+                <span class="quick-action-arrow">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </span>
+
+            </a>
+
+
+            <!-- Valuation History -->
+            <a
+                href="{% url 'history' %}"
+                class="quick-action-card"
+                aria-label="Valuation History"
+            >
+
+                <div class="quick-action-icon">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                </div>
+
+                <div>
+                    <h3>
+                        Valuation History
+                    </h3>
+
+                    <p>
+                        Review your previous property analyses.
+                    </p>
+                </div>
+
+                <span class="quick-action-arrow">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </span>
+
+            </a>
+
+
+            <!-- About PropTech AI -->
+            <a
+                href="{% url 'about' %}"
+                class="quick-action-card"
+                aria-label="About PropTech AI"
+            >
+
+                <div class="quick-action-icon">
+                    <i class="fa-solid fa-circle-info"></i>
+                </div>
+
+                <div>
+                    <h3>
+                        About PropTech AI
+                    </h3>
+
+                    <p>
+                        Learn how the valuation platform works.
+                    </p>
+                </div>
+
+                <span class="quick-action-arrow">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </span>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

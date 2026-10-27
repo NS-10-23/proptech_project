@@ -1,0 +1,185 @@
+{% extends "valuation/base.html" %}
+
+{% block title %}PropTech AI | Nepal Real Estate Valuation{% endblock %}
+
+{% block content %}
+
+<section class="hero-section">
+
+    <div class="container">
+
+        <div class="hero-content">
+
+            <div class="hero-badge">
+                <i class="fa-solid fa-chart-line"></i>
+                AI-POWERED REAL ESTATE INTELLIGENCE
+            </div>
+
+            <h1>
+                Smarter Property
+                <span>Valuation for Nepal</span>
+            </h1>
+
+            <p>
+                Estimate property value, monthly rental income and
+                investment potential using an AI-powered valuation
+                system designed for the Nepalese real estate market.
+            </p>
+
+            <div class="hero-actions">
+
+                {% if user.is_authenticated %}
+
+                    <a
+                        href="{% url 'valuation' %}"
+                        class="hero-btn hero-btn-primary"
+                    >
+                        <i class="fa-solid fa-calculator"></i>
+                        Start Valuation
+                    </a>
+
+                    <a
+                        href="{% url 'dashboard' %}"
+                        class="hero-btn hero-btn-secondary"
+                    >
+                        View Dashboard
+                    </a>
+
+                {% else %}
+
+                    <a
+                        href="{% url 'signup' %}"
+                        class="hero-btn hero-btn-primary"
+                    >
+                        Get Started
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
+                    <a
+                        href="{% url 'about' %}"
+                        class="hero-btn hero-btn-secondary"
+                    >
+                        Learn More
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-stats">
+
+            <div class="hero-stat">
+                <i class="fa-solid fa-brain"></i>
+
+                <div>
+                    <strong>AI Powered</strong>
+                    <span>Machine learning valuation</span>
+                </div>
+            </div>
+
+
+            <div class="hero-stat">
+                <i class="fa-solid fa-house"></i>
+
+                <div>
+                    <strong>Property Analysis</strong>
+                    <span>Detailed property insights</span>
+                </div>
+            </div>
+
+
+            <div class="hero-stat">
+                <i class="fa-solid fa-chart-column"></i>
+
+                <div>
+                    <strong>Market Insights</strong>
+                    <span>Price and rental estimates</span>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="features-section">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span>WHAT YOU CAN DO</span>
+
+            <h2>
+                Property intelligence in one place
+            </h2>
+
+            <p>
+                Make property analysis easier with data-driven
+                valuation and investment information.
+            </p>
+
+        </div>
+
+
+        <div class="feature-grid">
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    <i class="fa-solid fa-calculator"></i>
+                </div>
+
+                <h3>AI Property Valuation</h3>
+
+                <p>
+                    Enter property details and receive an estimated
+                    market value using the trained machine learning model.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    <i class="fa-solid fa-money-bill-trend-up"></i>
+                </div>
+
+                <h3>Rental Estimation</h3>
+
+                <p>
+                    View estimated monthly rental income and understand
+                    the potential return from a property.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                </div>
+
+                <h3>Valuation History</h3>
+
+                <p>
+                    Keep track of previous valuations through your
+                    personal valuation history.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
